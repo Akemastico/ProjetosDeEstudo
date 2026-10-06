@@ -2,7 +2,7 @@
 
 **Data:** 2026-10-06
 
-**Status:** Aguardando revisão do usuário
+**Status:** Aprovada para implementação
 
 ## Objetivo
 
@@ -16,23 +16,29 @@ Usar a pasta já existente `~/Documentos/ProjetosDeEstudo/` como raiz do reposit
 ProjetosDeEstudo/
 ├── .git/
 ├── .gitignore
+├── README.md (será criado pelo usuário depois)
+├── docs/
+│   └── superpowers/
+│       ├── plans/
+│       └── specs/
 └── AgendadorDeTarefas/
     ├── backend/
     └── ...
 ```
 
-O diretório do projeto e seus arquivos locais serão preservados. O repositório atual não tem commits nem remoto configurado.
+O diretório do projeto e seus arquivos locais serão preservados. O repositório atual contém apenas o commit da especificação, ainda não tem remoto configurado e está na branch `master`; antes da publicação, a branch será renomeada para `main`.
 
 ## Proteção de dados e segurança
 
-- Não criar nem editar arquivos README; o usuário cuidará dessa documentação.
+- Não criar nem editar README. O repositório principal terá um README feito pelo usuário depois; subprojetos não terão README.
+- Preservar localmente, sem publicar, o README vazio atualmente existente dentro de `AgendadorDeTarefas/`.
 - Manter na raiz um `.gitignore` que exclua ambientes virtuais, caches Python, arquivos `.env` e bancos SQLite locais. O `db.sqlite3` existente permanece no computador, mas não será publicado.
 - O projeto Django contém uma `SECRET_KEY` fixa, marcada como insegura para desenvolvimento. Substituí-la por leitura da variável de ambiente `DJANGO_SECRET_KEY`; informar ao usuário como defini-la na conclusão, sem editar README. Não incluir o valor atual no GitHub.
-- Preservar os arquivos do projeto, incluindo o README já existente, sem alterações de documentação.
+- Preservar os demais arquivos do projeto sem alterações de documentação.
 
 ## Publicação
 
-Após a organização, verificar o projeto e conferir que banco, ambiente virtual, caches e segredos não estão no conjunto de arquivos a publicar. Criar um commit inicial na branch `main`, criar `ProjetosDeEstudo` como repositório público na conta GitHub do usuário e enviar o commit para o remoto `origin`.
+Após a organização, verificar o projeto e conferir que banco, ambiente virtual, caches e segredos não estão no conjunto de arquivos a publicar. Criar o commit do projeto na branch `main`, criar `ProjetosDeEstudo` como repositório público na conta GitHub do usuário e enviar a branch para o remoto `origin`.
 
 Se não houver autenticação GitHub disponível no ambiente, interromper antes da criação/publicação remota e informar o bloqueio.
 

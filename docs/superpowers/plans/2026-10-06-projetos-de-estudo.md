@@ -70,9 +70,9 @@
 - Consumes: Safe local repository from Tasks 1–2.
 - Produces: Public GitHub repository `ProjetosDeEstudo`, local remote `origin`, and published branch `main`.
 
-- [ ] **Step 1: Audit the staging set.** Confirm the existing key, `db.sqlite3`, `.venv`, Python caches, `.env` files, and project README are absent from the set to be committed; do not use an unrestricted add if it would include the local README.
-- [ ] **Step 2: Run the Django verification** with `DJANGO_SECRET_KEY=test-only-key uv run python manage.py check` from `AgendadorDeTarefas/backend`; stop and report any unrelated project failure rather than silently changing application behavior.
-- [ ] **Step 3: Check GitHub authentication and repository availability.** Use `gh auth status` and `gh repo view Akemastico/ProjetosDeEstudo`; if unauthenticated or the repository already exists, stop before remote creation and report the blocker.
-- [ ] **Step 4: Rename the local branch to `main`, stage only the approved files, and create the repository commit.** Verify `git status --short` shows no publishable local artifacts.
-- [ ] **Step 5: Create the public GitHub remote** named `ProjetosDeEstudo`, set it as `origin`, and push `main`. Do not force-push.
-- [ ] **Step 6: Verify publication** with `git remote -v`, `git status --short --branch`, and `gh repo view --json name,visibility,url`; expected visibility is `PUBLIC`, branch is `main`, and the worktree has no publishable changes.
+- [x] **Step 1: Audit the staging set.** Confirm the existing key, `db.sqlite3`, `.venv`, Python caches, `.env` files, and project README are absent from the set to be committed; do not use an unrestricted add if it would include the local README.
+- [x] **Step 2: Run the Django verification** with `DJANGO_SECRET_KEY=test-only-key uv run python manage.py check` from `AgendadorDeTarefas/backend`; stop and report any unrelated project failure rather than silently changing application behavior.
+- [x] **Step 3: Check GitHub authentication and repository availability.** Use `gh auth status` and `gh repo view Akemastico/ProjetosDeEstudo`; if unauthenticated or the repository already exists, stop before remote creation and report the blocker.
+- [x] **Step 4: Rename the local branch to `main`, stage only the approved files, and create the repository commit.** Verify `git status --short` shows no publishable local artifacts.
+- [x] **Step 5: Create the public GitHub remote** named `ProjetosDeEstudo`, set it as `origin`, and push `main`. Do not force-push.
+- [x] **Step 6: Verify publication** with `git remote -v`, `git status --short --branch`, and `gh repo view --json name,visibility,url`; expected visibility is `PUBLIC`, branch is `main`, and the worktree has no publishable changes.

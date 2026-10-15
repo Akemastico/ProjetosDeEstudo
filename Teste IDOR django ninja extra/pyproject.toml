@@ -1,0 +1,12 @@
+[project]
+name = "protecaoidor"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "django>=6.1.2",
+    "django-ninja>=1.7.1",
+    "django-ninja-extra>=0.31.7",
+    "django-ninja-jwt>=5.4.5",
+]

@@ -19,37 +19,32 @@ class AgentState(TypedDict):
 llm = ChatOllama(model="llama3.2:3b",keep_alive="30m")
 
 def node_a(state: AgentState) -> AgentState:
-    #CRIAR PROMPT
-    global llm
+    # CRIAR PROMPT
     prompt = state["prompt"]
-    try : 
+    try:
         response = llm.invoke(prompt)
-        ai_response = AIMessage(response.content)
-        return {"answer" : response.content, "messages" : ai_response}
-    except Exception:
-        raise RuntimeError("Erro ao Responder a mensagem") from Exception
+    except Exception as error:
+        # Encadeia o erro original, preservando o traceback para depuração
+        raise RuntimeError("Erro ao responder a mensagem") from error
+    return {"answer": response.content, "messages": AIMessage(response.content)}
 
 def node_b(state: AgentState) -> Literal["a","c"]:
-    #AVALIACAO PROMPT
-    global llm
-    
+    # AVALIACAO PROMPT
     system_message = SystemMessage("you are a answer validator, answer with only YES OR NO followed by a explanation in this format, YES, its a good answer . NO, its not a good answer . YES or NO always in capital")
-    context = [system_message]
-    prompt = HumanMessage(state["answer"])
-    context.append(prompt)
-    try : 
+    context = [system_message, HumanMessage(state["answer"])]
+    try:
         response = llm.invoke(context)
-        if "YES" in response.content:
-            print("Prompt Aprovado")
-            return "c"
-        elif "NO" in response.content:
-            print("Prompt Recusado")
-            return "a"
-        else :
-            raise RuntimeError("IA NAO RESPONDEU CERTO JESUISE")
-        
-    except Exception:
-        raise RuntimeError("Erro na avaliacao da resposta")
+    except Exception as error:
+        raise RuntimeError("Erro na avaliacao da resposta") from error
+
+    # O raise fica fora do try: senão o próprio except captura o erro de formato
+    if "YES" in response.content:
+        print("Prompt Aprovado")
+        return "c"
+    if "NO" in response.content:
+        print("Prompt Recusado")
+        return "a"
+    raise RuntimeError(f"IA nao respondeu no formato esperado: {response.content!r}")
 
 def node_c(state:AgentState) -> AgentState :
     prompt = HumanMessage(state["prompt"])

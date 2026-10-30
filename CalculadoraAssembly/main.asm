@@ -6,7 +6,6 @@ section .bss
     num2 resb 2
     respsum resb 8
     respsub resb 8
-
 section .data
     msg db "Digite Um numero : "
     tmsg equ $ - msg

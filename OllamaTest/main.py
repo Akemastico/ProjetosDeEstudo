@@ -8,14 +8,14 @@ url = "http://api.weatherapi.com/v1/current.json"
 key = os.environ.get('WEATHERAPIKEY')
 model = "qwen2.5-coder:3b"
 
-# 1. Função Python Real
+
 def getWeather(city: str):    
     response = requests.get(url, params={"key": key, "q": city})
     response.raise_for_status()
     data = response.json()['current']['temp_c']
     return f'Temperatura Atual em {city}: {data}°C'
 
-# 2. Definição do JSON Schema para o Ollama (Sem vírgula extra no final)
+
 weather_tool = {
     'type': 'function',
     'function': {
@@ -31,7 +31,6 @@ weather_tool = {
     },
 }
 
-# 3. Mapeamento apontando para a FUNÇÃO REAL (getWeather), não para a especificação
 available_tools = {
     'getWeather': getWeather
 }
@@ -63,4 +62,4 @@ def askllm(question: str):
     return response.message.content
 
 
-print(askllm("use tua tool para ver a temperatura de sao paulo agora, manda ai"))
+print(askllm("bom dia"))

@@ -6,3 +6,9 @@ class RespOut(Schema):
     name: str
     email: EmailStr
     
+    
+class DevIn(Schema):
+    name:str
+    email:EmailStr
+    
+    

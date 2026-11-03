@@ -1,8 +1,9 @@
+from ninja.errors import HttpError
 from ninja_extra import api_controller,ControllerBase,route
 from tasks.models import Tasks
 from .models import Developer
 from django.shortcuts import get_list_or_404
-
+from schemas import DevIn
 
 
 @api_controller("/devs")
@@ -18,5 +19,9 @@ class DevController(ControllerBase):
             for dev in objects]
     
     @route.post("/create")
-    def createDev(self)
+    def createDev(self,payload:DevIn):
+        if Developer.objects.filter(email=payload.email).exists():
+            raise HttpError(409,"Email already registered")
+            
+            
     

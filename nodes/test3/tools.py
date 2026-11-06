@@ -1,48 +1,52 @@
-import sqlite3 as sql
-from langchain.tools import BaseTool,tool
 
+from langchain.tools import tool,BaseTool
 
+@tool
+def soma(a:float,b:float):
+    '''
+    A FUNCTION THAT RETURN THE SUM OF TWO NUMBERS
+    
+    ARGS:
+    A: FLOAT
+    B: FLOAT'''
+    return a+b
 
-def connection_pool():
-    try :
-        conn = sql.connect("/home/akemistico/Documentos/ProjetosDeEstudo/nodes/test3/database.db")
-        conn.row_factory = sql.Row
-        return conn
-    except Exception as e:
-        raise RuntimeError("Erro conexao com o banco")    
-@tool    
-def get_richest_people():
-    conn = connection_pool()
-    cursor = conn.cursor()
-    try:
-        cursor.execute(
-            "SELECT nome, rendabruta FROM pessoas "
-            "ORDER BY rendabruta DESC LIMIT 10"
-        )
-        results = [(item["nome"],item["rendabruta"]) for item in cursor.fetchall()]
-        return results
-    except Exception as e:
-        return e
-    finally:
-        conn.close()
-
-@tool        
-def get_oldest_people():
-    conn = connection_pool()
-    cursor = conn.cursor()
-    try:
-        cursor.execute(
-            "SELECT nome, idade FROM pessoas "
-            "ORDER BY idade DESC LIMIT 10"
-        )
-        results = [(item["nome"],item["idade"]) for item in cursor.fetchall()]
-        return results
-    except Exception as e:
-        return e
-    finally:
-        conn.close()
+@tool
+def subtracao(a:float,b:float):
+    '''
+        A FUNCTION THAT RETURN THE SUBTRACTION OF TWO NUMBERS
         
-        
-tools:list[BaseTool] = [get_oldest_people,get_richest_people]
+        ARGS:
+        A: FLOAT
+        B: FLOAT'''
+    return a-b
+
+@tool
+def multiply(a:float,b:float):
+    '''
+            A FUNCTION THAT RETURN THE MULTIPLICATION OF TWO NUMBERS
+            
+            ARGS:
+            A: FLOAT
+            B: FLOAT'''
+    return a*b
+
+@tool
+def division(a:float,b:float):
+    '''
+            A FUNCTION THAT RETURN THE DIVISION OF TWO NUMBERS
+            B CANT BE 0 
+            ARGS:
+            A: FLOAT
+            B: FLOAT'''
+    if b == 0:
+        raise ZeroDivisionError("Nao e possivel dividir por zero")
+    return a/b
+
+tools:list[BaseTool] = [soma,subtracao,multiply,division]
 tools_by_name = {tool.name:tool for tool in tools}
 
+
+    
+      
+     

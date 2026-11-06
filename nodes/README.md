@@ -8,11 +8,12 @@ roda um chat no terminal.
 
 ## Os arquivos, em ordem de evolução
 
-| Arquivo | Grafo | O que muda em relação ao anterior |
-|---------|-------|-----------------------------------|
-| `test.py` | `START → a → b → c → END` | Primeira versão. O estado guarda `prompt` e `answer`. O nó `c` só devolve o prompt como `HumanMessage` no histórico. |
-| `test1.py` | `START → a → b → c → END` | Mesma estrutura, mas o `HumanMessage` da pergunta passa a ser enviado já no `invoke`, em vez de ser criado no fim pelo nó `c`. |
+| Arquivo      | Grafo                                       | O que muda em relação ao anterior                                                                                                                          |
+| ------------ | ------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `test.py`  | `START → a → b → c → END`             | Primeira versão. O estado guarda `prompt` e `answer`. O nó `c` só devolve o prompt como `HumanMessage` no histórico.                             |
+| `test1.py` | `START → a → b → c → END`             | Mesma estrutura, mas o `HumanMessage` da pergunta passa a ser enviado já no `invoke`, em vez de ser criado no fim pelo nó `c`.                       |
 | `test2.py` | `START → a ⇄ b` (b decide quando parar) | O nó `c` desaparece. `a` passa a usar o histórico completo (`messages`) como contexto do LLM, e a pergunta entra no histórico direto no `invoke`. |
+| `test3/main.py` | `START → a → (tool → a)* → END` | Agente com chamadas de ferramentas de cálculo, usando `qwen3:4b-instruct` via Ollama. |
 
 ## O que cada nó faz
 
@@ -36,6 +37,21 @@ uv run python nodes/test2.py
 
 Para sair do chat digite `quit`, `q`, `end` ou `exit`.
 
+### Exemplo `test3`
+
+O grafo em `test3/graph.py` deixa o modelo decidir quando chamar uma ferramenta.
+As ferramentas ficam em `test3/tools.py`: `soma`, `subtracao`, `multiply` e
+`division`. Depois de executar uma ferramenta, o resultado volta ao modelo para
+ele formular a resposta.
+
+Na pasta `nodes/`, instale as dependências, baixe o modelo e execute:
+
+```bash
+uv sync
+ollama pull qwen3:4b-instruct
+uv run python test3/main.py
+```
+
 ## Conceitos que aparecem aqui
 
 - **`AgentState` como `TypedDict`** — o "formato" dos dados que circulam entre os
@@ -55,7 +71,3 @@ Para sair do chat digite `quit`, `q`, `end` ou `exit`.
   volta para `node_a`, mas `node_a` reenvia o mesmo contexto — a IA tende a repetir
   a resposta e o loop não termina. Uma saída seria contar tentativas no estado e
   cortar depois de N, ou passar a justificativa do validador para o próximo turno.
-- **Imports não usados** (`sqlite3`, `init_chat_model`, `Markdown`) herdados de
-  autocomplete. Inofensivos, mas sujam a leitura.
-- As f-strings usam aspas aninhadas (`f"{result["answer"]}"`), o que exige
-  **Python 3.12+**.

@@ -4,7 +4,7 @@ from ninja_extra import api_controller,ControllerBase,route
 from tasks.models import Tasks
 from django.shortcuts import get_list_or_404
 from .models import Developer
-from schemas import DevIn
+from .schemas import DevIn
 from ninja_jwt.authentication import JWTAuth
 
 
@@ -30,6 +30,6 @@ class DevController(ControllerBase):
     @route.get("/dev/{dev_id}",auth=JWTAuth)
     def get_user_tasks(self, dev_id:int):
         data = Tasks.objects.filter(developer_id=dev_id)
-        return data
+        return [i for i in data]
             
     

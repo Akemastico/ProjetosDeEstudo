@@ -20,7 +20,7 @@ class TaskController(ControllerBase):
     def listAllTasks(self):
         #data = data dos objetos
         data = Tasks.objects.all()
-        return data 
+        return [[i.title,i.description] for i in data]
         
     @route.post("/create",auth=JWTAuth)
     def createTask(self,payload:TaskIn):

@@ -1,5 +1,3 @@
-from decimal import MAX_EMAX
-
 from django.db import models
 from devs.models import Developer
 

@@ -1,6 +1,5 @@
 from ninja_extra import NinjaExtraAPI
 from tasks.views import TaskController
-from ninja_extra import route
 from ninja_jwt.controller import NinjaJWTDefaultController
 
 app = NinjaExtraAPI()

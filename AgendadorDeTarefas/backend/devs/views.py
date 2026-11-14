@@ -29,7 +29,7 @@ class DevController(ControllerBase):
     
     @route.get("/dev/{dev_id}",auth=JWTAuth)
     def get_user_tasks(self, dev_id:int):
-        data = Tasks.objects.filter(Developer=dev_id)
+        data = Tasks.objects.filter(developer_id=dev_id)
         return data
             
     

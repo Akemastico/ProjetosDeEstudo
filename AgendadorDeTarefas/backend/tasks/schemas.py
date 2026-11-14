@@ -1,5 +1,3 @@
-from turtle import title
-
 from ninja import Schema 
 from typing import List
 

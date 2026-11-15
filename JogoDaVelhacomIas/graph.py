@@ -40,14 +40,16 @@ def GetModels():
             output["llm2"] = "llama3.2:3b"
             os.system("clear")
         case _:
-            raise RuntimeError(" TU NAO SABE ESCOLHER UM MODELO CERTO NAMORAL KJOKAOLPAKPLASKAKAPLAKAK")
+            raise RuntimeError(" TjU NAO SABE ESCOLHER UM MODELO CERTO NAMORAL KJOKAOLPAKPLASKAKAPLAKAK")
     return output
 
 def configure(state:State) -> State :
     print("> config")
     models = GetModels()
-    #models retorna {"llm1" : modelo} entao deve funcionar :p bleh
-    if getattr(models,"llm1") and getattr(models,"llm2") : 
+    #models retorna {"llm1" : modelo} entao deve funcionar :p bleh 
+    #NAO FUNCIONARIA PQ GETATTR serve para atributos em tempo de execucao
+    #agora com get ele vai checar se tem essa chave no dicionario
+    if models.get("llm1") and models.get("llm2") : 
         return models
     raise RuntimeError("Erro em configure")
 

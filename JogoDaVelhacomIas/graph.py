@@ -2,15 +2,22 @@ from langchain.chat_models import BaseChatModel
 from langgraph.graph import StateGraph
 from typing import TypedDict,Literal
 import os
+from .utils import checkWinner,winMessage
+
 
 class State(TypedDict):
     board: list[str]
-    status: Literal["tied","o","x"]
+    status: Literal["o","x"]
     llm1: BaseChatModel
     llm2: BaseChatModel
 
-#funcao para pegar os modelos
+# Prompt para as jogadas
+# (USADO PQ EU ACHO QUE SO ASSIM PARA ELE SABER JNHAJAKDSJDSJA)
+# apesar que sepa eu podia colocar na description do field,mas ne
+SYSTEMPROMPTFORX = "youre playing tic-tac-toe as X, the board is show in a flat 0-8 indexed array of strings"
+SYSTEMPROMPTFORO = "youre playing tic-tac-toe as O, the board is show in a flat 0-8 indexed array of strings"
 
+#funcao para pegar os modelos
 def GetModels():
     l1 = input("Qual vai ser a primeira ia?\n1-Qwen3:4b 2-Ollama3.2:3b")\
         
@@ -44,8 +51,22 @@ def configure(state:State) -> State :
         return models
     raise RuntimeError("Erro em configure")
 
-def call_llm(state:State) -> State:
-    ...
+def checkWin(state:State) -> Literal["__end__", "O","X"]:
+    status = state["status"]
+    if 0 not in state["board"]:
+        return "__end__"
+    winner = checkWinner(state["board"])
+    if not winner:
+        return "O" if status == "X" else "X"
+    winMessage(winner)
+    return "__end__"
+    
+        
+    
+    
+        
+        
+    
     
 
 

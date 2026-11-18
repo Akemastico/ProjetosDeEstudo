@@ -104,43 +104,39 @@ def Router(state:State) -> Literal["__end__", "oturn","xturn"]:
     
 def oTurn(state:State) -> State:
     print("o > ")
-    grid = state["board"]
-    
+    grid = list(state["board"])
+
     message = []
     message.append(SystemMessage(SYSTEMPROMPTFORO))
     message.append(boardText(grid))
-    
-    
-    response = load_llm(state["llm1"]).invoke(message)
+
+
+    response = load_llm(state["llm2"]).invoke(message)
     pos = response.pos
-    try : 
-        if validMove(grid,pos) :
-            grid[pos] = "O"
-            print("opos > ", pos)
-            return {"board" : grid}
-        print("invalido")
-    except Exception as e:
-        raise RuntimeError("Erro na chamada O TURN") from e
+    if not validMove(grid,pos):
+        raise RuntimeError(f"A IA de O escolheu a casa invalida {pos}")
+    grid[pos] = "O"
+    print("opos > ", pos)
+    return {"board" : grid}
+
 
 
 def xTurn(state:State) -> State:
     print("x > ")
-    grid = state["board"]
-    
+    grid = list(state["board"])
+
     message = []
     message.append(SystemMessage(SYSTEMPROMPTFORX))
     message.append(boardText(grid))
-    
-    response = load_llm(state["llm2"]).invoke(message)
+
+    response = load_llm(state["llm1"]).invoke(message)
     pos = response.pos
-    try : 
-        if validMove(grid,pos):
-            grid[pos] = "X"
-            print("xpos > ",pos)
-            return {"board" : grid}
-        print("invalido")
-    except Exception as e:
-        raise RuntimeError("Erro na chamada X TURN") from e
+    if not validMove(grid,pos):
+        raise RuntimeError(f"A IA de X escolheu a casa invalida {pos}")
+    grid[pos] = "X"
+    print("xpos > ",pos)
+    return {"board" : grid}
+    
 
 
 def buildGraph():

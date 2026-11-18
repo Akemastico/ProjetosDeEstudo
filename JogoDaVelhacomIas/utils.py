@@ -32,7 +32,7 @@ def checkTie(grid:list[str]):
         mes = "O JOGO EMPATOU ! ! ! ! ! ! ! ! ! !"
         for i in mes:
             print(i,end=" ",flush=True)
-            return True
+        return True
     return False
 
 

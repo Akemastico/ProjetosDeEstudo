@@ -10,5 +10,10 @@ class RespOut(Schema):
 class DevIn(Schema):
     name:str
     email:EmailStr
+    password: str
+    
+class DevTaskOut(Schema):
+    title:str
+    description:str | None
     
     

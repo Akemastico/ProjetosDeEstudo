@@ -9,4 +9,5 @@ dependencies = [
     "django-ninja>=1.7.1",
     "django-ninja-extra>=0.31.7",
     "django-ninja-jwt>=5.4.5",
+    "pydantic[email]>=2.13.5",
 ]

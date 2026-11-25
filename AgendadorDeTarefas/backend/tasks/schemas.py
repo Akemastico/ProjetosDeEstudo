@@ -6,4 +6,3 @@ class TaskIn(Schema):
     description:str | None
     categories: List[int]
     
-    

@@ -4,7 +4,7 @@ from ninja_jwt.authentication import JWTAuth
 from .schemas import TaskIn
 from .models import Tasks
 from devs.models import Developer
-
+from ninja.errors import HttpError
 
 
 @api_controller("/tasks")
@@ -20,10 +20,10 @@ class TaskController(ControllerBase):
             Developer,
             username=self.context.request.user
         )
-        task = Tasks.objects.create(title=payload.title, devname=developer,description=payload.description)
-        
-        if payload.categories:
-            task.categories.set(payload.categories)
+        if Tasks.objects.filter(title=payload.title, devname=developer).exists():
+            raise HttpError(409, "Task name already saved")
+            
+        task = Tasks.objects.create(title=payload.title, devname=developer,description=payload.description,categories=payload.categories)   
         
         return {"status" : 201, "name" : task.title}
     

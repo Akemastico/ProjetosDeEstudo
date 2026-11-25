@@ -8,7 +8,7 @@ class Tasks(models.Model):
         LUTA = 3,"luta"
         RELACIONAMENTO = 4,"relacionamento"
         
-    title = models.CharField(max_length=100)
+    title = models.CharField(max_length=100,unique=True)
     devname = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE,related_name="tasks")
     description = models.CharField(max_length=500)
     categories = models.IntegerField(choices=Categories.choices)   
